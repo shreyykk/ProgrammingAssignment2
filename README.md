@@ -103,3 +103,63 @@ In order to complete this assignment, you must do the following:
 ### Grading
 
 This assignment will be graded via peer assessment.
+
+##This function creates a special "matrix" object that can cache its inverse.
+makeCacheMatrix<-function(a = matrix()) {
+  
+  #Initializing inverse
+  b <- NULL
+  
+  #Set the matrix
+  set <- function(matrix) {
+    a<<- matrix
+    b<<- NULL
+  }
+  
+  #Get the matrix
+  get<- function(){a}
+  
+  #Set the inverse of the matrix
+  setinverse<-function(inverse){
+    b<<-inverse
+  }
+  
+  #Get the inverse of the matrix
+  getinverse<-function(){b}
+  
+  #List
+  list(set = set, get = get,
+       setinverse = setinverse,
+       getinverse = getinverse)
+  
+}
+
+
+
+##This function computes the inverse of the special "matrix" returned by 
+##makeCacheMatrix above. 
+##If the inverse has already been calculated (and the matrix has not changed), 
+##then the cachesolve should retrieve the inverse from the cache.
+
+cacheSolve<-function(x,...) {
+  
+ #Matrix inverse of x
+  a<-x$getinverse()
+  
+ #Cache Inverse
+  if(!is.null(a)) {
+    message("getting cached data")
+    return(a)
+  }
+  #Get matrix
+  data<-x$get()
+  
+  #Inverse calculation using marix multiplication
+  a<-solve(data)%*% data
+  
+  #Set inverse
+  x$setinverse(a)
+  
+  #Return matrix
+  a
+}
